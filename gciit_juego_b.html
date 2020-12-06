@@ -45,7 +45,7 @@ Revisión   : 04.12.2020
     </style>
 </head>
 
-<body>
+<body onload="inicioPaginaJuego();">
 
   <!-- ------------------ Navegacion ------------------ -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
@@ -99,14 +99,14 @@ Revisión   : 04.12.2020
     <div class="container">
       <div class="row">
         <div class="col-sm-12" align="center">
-          <img src="imagenes/titulo_juego.png" class="rounded" alt=""> 
+          <img src="imagenes/titulo_juego.png" class="img-fluid" alt=""> 
         </div>
       </div>
       
       <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-10 bg-success">
-          <button type="button" class="btn btn-danger" onclick="inicioJuego()">Iniciar Juego</button>
+          <button type="button" class="btn btn-danger" onclick="inicioJuego()">Iniciar NUEVA Partida</button>
         </div>
         <div class="col-sm-1"></div>
       </div>  <!-- FIN Fila -->
@@ -114,13 +114,13 @@ Revisión   : 04.12.2020
       <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-3 bg-success">
-          <h3 align="center">0/4</h3>
+          <h3 align="center" id="textoIntentos">0/4</h3>
         </div>
         <div class="col-sm-4 bg-warning">
           <h2 align="center" id="textoPuntos">0</h3>
         </div>
         <div class="col-sm-3 bg-success">
-          <h3 align="center">00:00</h3>
+          <h3 align="center" id="textoTiempo">00:00</h3>
         </div>
         <div class="col-sm-1"></div>
       </div>  <!-- FIN Fila -->
@@ -144,7 +144,7 @@ Revisión   : 04.12.2020
       <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-5">
-          <img src="imagenes/adivinanza_1i.jpg" class="rounded" alt="Cinque Terre"> 
+          <img src="imagenes/adivinanza_1i.jpg" alt="Imagen de la Adivinanza" class="img-fluid" id="imgAdivinanza">
         </div>
         <div class="col-sm-5">
           <form>
@@ -153,18 +153,25 @@ Revisión   : 04.12.2020
             </div>
             <div class="row">
               <div class="col">
-                <button type="button" class="btn btn-success">Solicitar Pista 1</button>
+                <button type="button" class="btn btn-success" id="btnPista1">Solicitar Pista 1</button>
               </div>
               <div class="col">
-                <input id="texPista1" type="text" class="form-control" placeholder="1 **********" readonly>
+                <input id="textoPista1" type="text" class="form-control" placeholder="**********" readonly>
               </div>
             </div>
             <div class="row">
               <div class="col">
-                <button type="button" class="btn btn-success">Solicitar Pista 2</button>
+                <button type="button" class="btn btn-success" id="btnPista2">Solicitar Pista 2</button>
               </div>
               <div class="col">
-                <input id="texPista1" type="text" class="form-control" placeholder="2 ************" readonly>
+                <input id="textoPista2" type="text" class="form-control" placeholder="**********" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" class="form-check-input" value="" id="chkSensible">Sensible a Mayúsculas / Minusculas
+                </label>
               </div>
             </div>
           </form>
@@ -174,20 +181,29 @@ Revisión   : 04.12.2020
 
       <div class="row">
         <div class="col-sm-1"></div>
+        <div class="col-sm-10">
+          <div class="alert alert-warning" id="textoAdivinanza">
+            <strong>???</strong></a>.
+          </div>
+        <div class="col-sm-1"></div>
+      </div>  <!-- FIN Fila -->
+
+      <div class="row">
+        <div class="col-sm-1"></div>
         <div class="col-sm-5">
           <form>
             <div class="row">
               <div class="col">
-                <input type="text" class="form-control" placeholder="Tu respuesta">
+                <input type="text" class="form-control" placeholder="Tu respuesta" id="textoRespuesta">
               </div>
               <div class="col">
-                <button type="button" class="btn btn-primary">Comprobar</button>
+                <button type="button" class="btn btn-primary" id="btnComprobar" onclick="verRespuesta();">Comprobar</button>
               </div>
             </div>
           </form>
         </div>
         <div class="col-sm-5">
-          <div class="alert alert-success">
+          <div class="alert alert-success" id="tipoMensaje">
             <strong>Mucha Suerte!</strong> para ti</a>.
           </div>
         <div class="col-sm-1"></div>
@@ -196,7 +212,7 @@ Revisión   : 04.12.2020
 
       <div class="row" align="center">
         <div class="col-sm-12" align="center">
-          <img src="imagenes/fin_juego.png" class="rounded" alt=""> 
+          <img src="imagenes/fin_juego.png" class="img-fluid" alt=""> 
         </div>
       </div>  <!-- FIN Fila -->
 
@@ -226,16 +242,16 @@ Revisión   : 04.12.2020
           <p class="text-left text-white">Actividad Nº 3: Sitio Web BootStrap + JavaScrip | <a href="https://www.ispc.edu.ar/" target="_blank">ISPC</a> | Desarrolador Full Stack 2020.</p>  
         </div>
         <div class="col-lg-2">
-          <img border="0" alt="HTML5+CSS3+JavaScrip" src="imagenes/html5_css_javascript.png">
+          <img border="0" alt="HTML5+CSS3+JavaScrip" src="imagenes/html5_css_javascript.png" class="img-fluid">
         </div>
         <div class="col-lg-1">
           <a href="https://getbootstrap.com/" target="_blank">
-            <img border="0" alt="BootStrap" src="imagenes/bootstrap_logo.png" width="80" height="80">
+            <img border="0" alt="BootStrap" src="imagenes/bootstrap_logo.png" width="80" height="80" class="img-fluid">
           </a>  
         </div>
         <div class="col-lg-1">
           <a href="https://www.w3schools.com" target="_blank">
-            <img border="0" alt="W3Schools" src="imagenes/w3s_logo.png" width="80" height="80">
+            <img border="0" alt="W3Schools" src="imagenes/w3s_logo.png" width="80" height="80" class="img-fluid">
           </a>  
         </div>
         <div class="col-lg-1">
@@ -243,6 +259,30 @@ Revisión   : 04.12.2020
       </div>
     </div>      
   </footer>
+
+  <!-- Inicio Ventana Modal -->
+  <div class="modal fade" id="ventanaModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Cotenido Ventana Modal -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="tituloModal">TITULO Modal</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        <div class="modal-body" id="mensajeModal">
+          <p>Esto es una prueba de ventana modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+      
+    </div>
+  </div> <!-- Fin Ventana Modal -->
+
+
+
 
   <!-- Bootstrap core JavaScript -->
   <script src="js/jquery/jquery.min.js"></script>
