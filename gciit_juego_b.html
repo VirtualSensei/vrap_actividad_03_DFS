@@ -99,7 +99,7 @@ Revisión   : 04.12.2020
     <div class="container">
       <div class="row">
         <div class="col-sm-12" align="center">
-          <img src="imagenes/titulo_juego.png" class="img-fluid" alt=""> 
+        <img src="imagenes/titulo_juego.png" class="img-fluid" alt=""> 
         </div>
       </div>
       
@@ -120,7 +120,7 @@ Revisión   : 04.12.2020
           <h2 align="center" id="textoPuntos">0</h3>
         </div>
         <div class="col-sm-3 bg-success">
-          <h3 align="center" id="textoTiempo">00:00</h3>
+          <h3 align="center" id="textoTiempo">0</h3>
         </div>
         <div class="col-sm-1"></div>
       </div>  <!-- FIN Fila -->
@@ -134,7 +134,7 @@ Revisión   : 04.12.2020
           <h4 align="center">Puntos</h3>
         </div>
         <div class="col-sm-3 bg-success">
-          <h5 align="center">Tiempo</h3>
+          <h5 align="center">Tiempo / Segundos</h3>
         </div>
         <div class="col-sm-1"></div>
       </div>  <!-- FIN Fila -->
@@ -153,7 +153,7 @@ Revisión   : 04.12.2020
             </div>
             <div class="row">
               <div class="col">
-                <button type="button" class="btn btn-success" id="btnPista1">Solicitar Pista 1</button>
+                <button type="button" class="btn btn-light" id="btnPista1"  onclick="verPista1();">Solicitar Pista 1</button>
               </div>
               <div class="col">
                 <input id="textoPista1" type="text" class="form-control" placeholder="**********" readonly>
@@ -161,16 +161,16 @@ Revisión   : 04.12.2020
             </div>
             <div class="row">
               <div class="col">
-                <button type="button" class="btn btn-success" id="btnPista2">Solicitar Pista 2</button>
+                <button type="button" class="btn btn-light" id="btnPista2" onclick="verPista2();">Solicitar Pista 2</button>
               </div>
               <div class="col">
-                <input id="textoPista2" type="text" class="form-control" placeholder="**********" readonly>
+                <input id="textoPista2" input-lg type="text" class="form-control" placeholder="**********" readonly>
               </div>
             </div>
             <div class="row">
               <div class="form-check">
                 <label class="form-check-label">
-                  <input type="checkbox" class="form-check-input" value="" id="chkSensible">Sensible a Mayúsculas / Minusculas
+                  <input type="checkbox" class="form-check-input" value="" id="chkSensible">Sensible a Mayúsculas/Minusculas la Respuesta
                 </label>
               </div>
             </div>
@@ -182,7 +182,7 @@ Revisión   : 04.12.2020
       <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-10">
-          <div class="alert alert-warning" id="textoAdivinanza">
+          <div class="alert alert-primary" id="textoAdivinanza">
             <strong>???</strong></a>.
           </div>
         <div class="col-sm-1"></div>
@@ -191,7 +191,7 @@ Revisión   : 04.12.2020
       <div class="row">
         <div class="col-sm-1"></div>
         <div class="col-sm-5">
-          <form>
+          <!-- <form> -->
             <div class="row">
               <div class="col">
                 <input type="text" class="form-control" placeholder="Tu respuesta" id="textoRespuesta">
@@ -200,7 +200,7 @@ Revisión   : 04.12.2020
                 <button type="button" class="btn btn-primary" id="btnComprobar" onclick="verRespuesta();">Comprobar</button>
               </div>
             </div>
-          </form>
+          <!-- </form>  -->
         </div>
         <div class="col-sm-5">
           <div class="alert alert-success" id="tipoMensaje">

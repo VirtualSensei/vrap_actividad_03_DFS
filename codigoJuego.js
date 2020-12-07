@@ -16,6 +16,8 @@ Revisión   : 06.12.2020
   var i_Intentos = 0;
   var i_Puntos = 100;
   var i_Que_Adivinanza = 0;
+  var i_Tiempo = 0;
+  var RefTIMER;
 
   var a_Adivinanzas = new Array(5);
   var a_RespValidas = new Array(5);
@@ -23,6 +25,7 @@ Revisión   : 06.12.2020
   var a_Pista1 = new Array(5);
   var a_Pista2 = new Array(5);
 
+  var primeraVEZ = true;
 
   // Retorna un entero aleatorio entre min (incluido) y max (excluido)
   function get_Adivinanza(min, max) {
@@ -34,6 +37,11 @@ Revisión   : 06.12.2020
 
 function iniciarDatos() {
   
+  i_Intentos = 0;
+  i_Puntos = 0;
+  i_Que_Adivinanza = 0;
+  i_Tiempo = 0;
+
   //Bucle para meter en cada posición otros array de 10
   //de esta manera tengo una matriz
   for(var i=0; i<10; i++) {
@@ -68,7 +76,7 @@ function iniciarDatos() {
   a_RespValidas[1][5] = "Semáforos";
   a_RespValidas[1][6] = "El semáforo";
   a_RespValidas[1][7] = "Los semáforos";
-  a_Pista1[1] = "La maroeia de las veces estoy en una esquina";
+  a_Pista1[1] = "La mayoria de las veces estoy en una esquina";
   a_Pista2[1] = "Tengo tres colores";
 
   a_Adivinanzas[2] = "En la calle me verás y al cruzar de un lado a otro, mis rayas pisarás";
@@ -110,7 +118,8 @@ function limpiarPanel(Intentos, Puntos, Tiempo, Adivinanza, Mensaje) {
   document.getElementById("textoPista2").value = "2 ************";
   document.getElementById("textoRespuesta").value = "";
     
-  document.getElementById("imgAdivinanza").src="imagenes/adivinanza_0.jpg";
+  document.getElementById("imgAdivinanza").src="imagenes/adivinanza_x.png";
+  document.getElementById("imgAdivinanza").style = "";
 
 }
 
@@ -118,7 +127,7 @@ function inicioPaginaJuego() {
 
   iniciarDatos();
   
-  limpiarPanel("x/4",0,"00:00","? *** ?", "<strong>Mucha Suerte!</strong> para ti");
+  limpiarPanel("x/4",0,"0","? *** ?", "<strong>Mucha Suerte!</strong> para ti");
   
   document.getElementById('btnPista1').disabled = true;
   document.getElementById('btnPista2').disabled = true;
@@ -129,18 +138,26 @@ function inicioPaginaJuego() {
   document.getElementById('chkSensible').disabled = true;
   document.getElementById('chkSensible').checked = true;
 
-
 }
 
 
 function inicioJuego() {
 
+  var auxS = ""
   i_Intentos = 0;
   i_Puntos = 100;
   i_Que_Adivinanza = get_Adivinanza(0,5);
+  i_Tiempo = 0;
  
-  limpiarPanel(i_Intentos + "/4", i_Puntos,"00:00", (i_Que_Adivinanza + 1)  + " - " + a_Adivinanzas[i_Que_Adivinanza] , "<strong>Mucha Suerte!</strong> para ti");
+  auxS = "<strong>" + (i_Que_Adivinanza + 1)  + " - " + a_Adivinanzas[i_Que_Adivinanza] + "</strong>"
+
+  limpiarPanel(i_Intentos + "/4", i_Puntos,"0", auxS , "<strong>Mucha Suerte!</strong> para ti");
   
+  const botonP1 = document.querySelector('#btnPista1');
+  botonP1.setAttribute('class', 'btn btn-light');
+  const botonP2 = document.querySelector('#btnPista2');
+  botonP2.setAttribute('class', 'btn btn-light');
+
   document.getElementById('btnPista1').disabled = true;
   document.getElementById('btnPista2').disabled = true;
   
@@ -149,6 +166,20 @@ function inicioJuego() {
 
   document.getElementById('chkSensible').disabled = false;
   document.getElementById('chkSensible').checked = true;
+
+  auxS = "Recuerda que tiene 4 Intentos para adivinar el Acertijo.<br><br>"
+  auxS = auxS + "En el intento Nº 2 se te habilitara la Pista 1.<br><br>";
+  auxS = auxS + "Y en el intento Nº 3 se te habilitara la Pista 2.<br><br>";
+
+  mostrarAlerta("ADV", auxS );
+
+  if (primeraVEZ == true) {
+      primeraVEZ = false;
+  } else {
+      clearInterval(refTIMER);
+  }
+  refTIMER = setInterval(function(){document.getElementById("textoTiempo").innerHTML = i_Tiempo++;}, 1000, "JavaScript");
+  
 }
 
 
@@ -194,8 +225,8 @@ function mostrarAlerta(tipo, mensaje) {
           break;
     default:
       //  Cualquier otro Mensaje
-      cadenaHTML = '<img class="img-fluid" src="imagenes/mError.png" alt="Error">'; 
-      document.getElementById("tituloModal").innerHTML = cadenaHTML + "<h1>ERROR</h1>";
+      cadenaHTML = '<img class="img-fluid" src="imagenes/mAdvertencia.png" alt="Error">'; 
+      document.getElementById("tituloModal").innerHTML = cadenaHTML + "<h1>ADVERTENCIA</h1>";
       cadenaHTML = '<div class="alert alert-danger"><strong>' +  mensaje + '</strong></div>';
       document.getElementById("mensajeModal").innerHTML = cadenaHTML;
   }   
@@ -232,34 +263,94 @@ function verRespuesta() {
   let auxR = document.getElementById("textoRespuesta").value;
   let auxR2 = auxR.trim();
   let auxS = '';
-
-  i_Intentos++;
-
+  
   if (auxR2 == "") {
     mostrarAlerta("SINDATO", "Tienes que ingresar una respuesta");  
   } else {
-    if ( comprobarRespuesta(auxR2) == true ) {
-      auxS = "FELICITACIONES!!!! Lo adivinaste en " + i_Intentos + " intentos.";
-      auxS = auxS + "<br>";
-      auxS = auxS + "Tu puntuacion Final es de " + i_Puntos + " Puntos.";
-      auxS = auxS + "<br>";
-      auxS = auxS + "Lo resolviste en un tiempo de: ";
-      
-      mostrarAlerta("SIES", auxS );
+      i_Intentos++;
+      if ( comprobarRespuesta(auxR2) == true ) {
 
-    } else {
-        if (i_Intentos < 4) {
-            i_Puntos = i_Puntos - 10;
-            document.getElementById("textoIntentos").innerHTML = i_Intentos + " / 4";
-            document.getElementById("textoPuntos").innerHTML = Puntos;
-            mostrarAlerta("NOES", "Que lastima NO es la respuesta correcta, vuelve a intentarlo");
-        }
-        if (i_Intentos = 4){
-            i_Puntos = 0;
-            document.getElementById("textoIntentos").innerHTML = i_Intentos + " / 4";
-            document.getElementById("textoPuntos").innerHTML = Puntos;
-            mostrarAlerta("GameOVER", "Que lastima NO pudo ser, vuelve a intentarlo SI!!!!!");
-        }
-    }
-  }
+          clearInterval(refTIMER)
+          document.getElementById("textoTiempo").innerHTML = i_Tiempo;
+
+          document.getElementById("textoIntentos").innerHTML = i_Intentos + " / 4";
+          document.getElementById("textoPuntos").innerHTML = i_Puntos;
+
+          auxS = "FELICITACIONES!!!! Lo adivinaste en " + i_Intentos + " intentos.";
+          auxS = auxS + "<br>";
+          auxS = auxS + "Tu puntuacion Final es de " + i_Puntos + " Puntos.";
+          auxS = auxS + "<br>";
+          auxS = auxS + "Lo resolviste en un tiempo de: " + i_Tiempo + " segundos.";
+          mostrarAlerta("SIES", auxS );
+
+          document.getElementById('btnPista1').disabled = true;
+          document.getElementById('btnPista2').disabled = true;
+  
+          document.getElementById('textoRespuesta').disabled = true;
+          document.getElementById('btnComprobar').disabled = true;
+
+          document.getElementById('chkSensible').disabled = true;
+
+      } else {
+          if (i_Intentos < 4) {
+              i_Puntos = i_Puntos - 10;
+              document.getElementById("textoIntentos").innerHTML = i_Intentos + " / 4";
+              document.getElementById("textoPuntos").innerHTML = i_Puntos;
+              mostrarAlerta("NOES", "Que lastima NO es la respuesta correcta, vuelve a intentarlo");
+              if (i_Intentos == 2) {
+                  const botonPista = document.querySelector('#btnPista1');
+                  botonPista.setAttribute('class', 'btn btn-primary');
+                  document.getElementById('btnPista1').disabled = false;
+              }
+              if (i_Intentos == 3) {
+                  const botonPista = document.querySelector('#btnPista2');
+                  botonPista.setAttribute('class', 'btn btn-primary');
+                  document.getElementById('btnPista2').disabled = false;
+              }
+
+          }  // FIN if (i_Intentos < 4) 
+          if (i_Intentos == 4){
+              
+              clearInterval(refTIMER);
+              document.getElementById("textoTiempo").innerHTML = i_Tiempo;
+
+              i_Puntos = 0;
+              document.getElementById("textoIntentos").innerHTML = i_Intentos + " / 4";
+              document.getElementById("textoPuntos").innerHTML = i_Puntos;
+              mostrarAlerta("GameOVER", "Que lastima NO pudo ser, vuelve a intentarlo SI!!!!!");
+
+              document.getElementById('btnPista1').disabled = true;
+              document.getElementById('btnPista2').disabled = true;
+  
+              document.getElementById('textoRespuesta').disabled = true;
+              document.getElementById('btnComprobar').disabled = true;
+
+              document.getElementById('chkSensible').disabled = true;
+
+          } // FIN if (i_Intentos = 4)
+      } // FIN if ( comprobarRespuesta(auxR2) == true ) 
+  } // FIN if (auxR2 == "") {
 }
+
+function verPista1(){
+  document.getElementById("textoPista1").value = a_Pista1[i_Que_Adivinanza];
+  i_Puntos = i_Puntos - 10;
+  document.getElementById("textoPuntos").innerHTML = i_Puntos;
+  document.getElementById("imgAdivinanza").src="imagenes/adivinanza_"+ i_Que_Adivinanza + ".png";
+  document.getElementById("imgAdivinanza").style = "filter: blur(18px);";
+  document.getElementById('btnPista1').disabled = true;
+}
+function verPista2(){
+  
+  document.getElementById("textoPista2").value = a_Pista2[i_Que_Adivinanza];
+  i_Puntos = i_Puntos - 10;
+  document.getElementById("textoPuntos").innerHTML = i_Puntos;
+  document.getElementById("imgAdivinanza").src="imagenes/adivinanza_"+ i_Que_Adivinanza + ".png";
+  document.getElementById("imgAdivinanza").style = "filter: blur(8px);";
+  document.getElementById('btnPista2').disabled = true;
+}
+
+
+  
+
+
